@@ -1,0 +1,70 @@
+#!/usr/bin/env ruby
+require "rubygems"
+
+begin
+  require "sass"
+rescue GEM::LoadError
+  puts "[FATAL] Quadrille requires sass. Please install Sass using"
+  if `which gem`.index('.rvm')
+    puts "    $ gem install sass"
+  else
+    puts "    $ sudo gem install sass"
+  end
+  puts "and then attempt to run Quadrille again."
+  exit
+end
+
+def prompt(prompt, default='')
+  default = default.to_s
+  default_disp = ' [default: ' + default.to_s + ']' unless default.empty?
+  print prompt.to_s << default_disp << ': '
+  answer = STDIN.gets
+  if answer.nil?
+    print "\n"
+    exit
+  end
+  return default if answer.chomp == ''
+  answer.chomp.downcase
+end
+
+def main
+  puts "Welcome to Quadrille. This will generate the base files for you."
+  grid_size = prompt("First, enter your grid's size", 24)
+  grid_x_offset = prompt("Enter the x offset of the intersection point of your grid", 12)
+  grid_y_offset = prompt("Enter the y offset of the intersection point of your grid", 12)
+  output_name = prompt("Output to filename", 'quadrille')
+
+  # make sure we can write here
+  css_filename = output_name + '.css'
+  html_filename = output_name + '.html'
+  if File.writable?(Dir.pwd)
+    # generate css
+    puts "Generating files..."
+    scss = File.open('./scss/quadrille.scss') { |f| f.read() }
+    scss = scss \
+      .sub(/^(\$grid_size:\s*)([\d]*)(px;)/, "\\1" + grid_size + "\\3") \
+      .sub(/^(\$grid_offset_x:\s*)([\d]*)(px;)/, "\\1" + grid_x_offset + "\\3") \
+      .sub(/^(\$grid_offset_y:\s*)([\d]*)(px;)/, "\\1" + grid_y_offset + "\\3")
+    sass_engine = Sass::Engine.new(scss, {:syntax => :scss})
+    File.open(css_filename, 'w') { |f| f.write(sass_engine.render) }
+    puts "Generated CSS file " << css_filename
+
+    # generate html
+    html = File.open('./html/template.html') { |f| f.read() }
+    html = html.sub(/\$\{GRID_SIZE\}/, grid_size) \
+               .sub(/\$\{GRID_OFFSET_X\}/, grid_x_offset) \
+               .sub(/\$\{GRID_OFFSET_Y\}/, grid_y_offset)
+    File.open(html_filename, 'w') { |f| f.write(html) }
+    puts "Generated HTML file " << html_filename
+  else
+    puts "Quadrille does not have permissions to write to this directory."
+  end
+  puts "Done."
+end
+
+begin
+  main
+rescue SystemExit, Interrupt
+  print "\n"
+  exit
+end

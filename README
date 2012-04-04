@@ -1,0 +1,84 @@
+Quadrille
+A little bit of <3 for x and y fixed grids
+
+About Quadrille
+
+Want to put some stuff on a square grid? Quadrille generates easy classes in SCSS and uses a jQuery plugin to keep everything snapped to the grid. Resize the window to see things snap. Inspect the elements and you'll see them stay true.
+
+This is probably only useful if you’re working with square, fixed grids and need an easy coordinate system to play with. If that is what you’re up to, Quadrille will make your life way easier.
+
+If you just want grids, you probably want to play with a proper framework, not this. This was originally made as a proof-of-concept for a really odd client request: a full-screen image with a grid overlay, where the grid scaled and elastically centered content while always remaining snapped to the grid. This required basically recreating the viewport. You’ll notice that layout used on this page.
+
+Prerequisites
+
+Before you can play with Quadrille, you will need to make sure you have Sass. If you don’t have Sass installed, just run
+
+$ gem install sass
+
+and everything will be OK.
+
+Configuring Quadrille
+
+The hardest part of Quadrille is configuration, and it’s not very hard. Before you start with Quadrille, you’ll need to know your grid size and grid offsets.
+
+Your grid size is how big of an x/y grid you need. (In the case of this page, it’s 24x24.)
+
+Your grid offset is the offset within the grid background image that the intersection point is. This page’s grid intersects directly in the middle, at (12,12).
+
+If you know these, you’re good to go. Run Quadrille's code generator:
+
+$ ./quadrille
+
+If you forgot to install Sass the generator will complain.
+
+Designing with Quadrille
+
+Quadrille is meant to be used with no understanding of anything but very basic HTML and CSS. You should not have to touch anything else. Because of this, Quadrille has a very verbose class syntax that allows you to develop on fixed grids up to 5000px by 5000px with just different classes.
+
+For example, this text uses the classes block w30 h5. That sounds nasty but it isn’t when it is explained. Quadrille has blocks, dimensions, and floaters. In this paragraph’s case, its block is block, its dimensions w30 and h5.
+Blocks
+
+Blocks come in four different flavors: block, gblock, relblock and absblock, all of which get positioned differently.
+
+block takes up an entire row even if your grid dimension doesn’t go that far. It works like a normal block element.
+
+gblock creates a grid block. These float to the left and allow you to put many of them side by side. They will wrap at the width of mainContent (the elastic grid container).
+
+relblock relatively positions a block. These blocks are still considered in the flow, so you will not have two relblocks appear adjacent to one another.
+
+absblock allows you to arbitrarily place blocks wherever you please on the coordinate grid.
+Dimensions
+
+Dimensions give blocks graphical coordinates or sizes. Dimensions come in a few different types: w, h, s, x, y, lh, and fs. All of these are short names, and all do only one thing: set a certain dimension or offset on the page to a multiple of your grid size. There is also a special dimension class called offset but we’ll get to that later.
+
+w blocks are width blocks. For example, w1 will set your element to exactly one grid square wide. w10 will set the element to exactly ten squares wide, and so on.
+
+h blocks are height blocks and work exactly like width blocks, only vertically.
+
+s blocks are space blocks. They are only useful really for gblock (grid blocks). They add blank space in between different grid blocks.
+
+x blocks are x-coordinate blocks, which you use with absblock or relblock structures. x-blocks work the way you'd expect from the top of your grid to the right. For example, x1 would be in the first square of your grid.
+
+y blocks are y-coordinate blocks. Unlike the way a geometric y-axis works, y increments (gets bigger) as you go down the page instead of up like a normal coordinate grid. This is normal for the web. As an example, y7 is seven blocks down from the top of your grid.
+
+lh blocks are a convenience block. They set the font’s line height to a multiple of the grid. fs are also a font convenience block, setting the font size to a multiple of the grid.
+
+offset, offset-x, and offset-y are special dimensional classes. If you aren’t working inside mainContent and want to arbitrarily place blocks, these will compensate for your grid offset. They’re for being powerful. offset offsets in both x and y directions, while the others only offset in one.
+Floaters
+
+Floaters control the floating/nesting structure of the grid. They are for use with gblock (grid blocks) only. They are clearleft, clearright, and clearboth.
+
+clearleft clears grid bits floating to the left. This is a shortcut for the CSS clear: left; and you should use this with a gblock if you don’t want anything to the side of it.
+
+clearright does the same, but to the right: anything floated to the right will be cleared.
+
+clearboth is the hammer that clears everything in both directions, in case you need to go Conan on your grid.
+Compatibility
+
+Quadrille works in Internet Explorer 8 or higher. You might have luck with older browsers but it isn’t tested in those. If for some reason your client does not have JavaScript enabled, the site will try to gracefully break down and not snap to the elastic grid. This is a rather large rarity in today’s browsing environment.
+Reporting Bugs
+
+If you have found a bug in Quadrille, please open an issue on GitHub. If you are a smart developer, you can issue your own fix as well.
+Licensing
+
+Quadrille is released under the MIT License, just like Sass and jQuery. If you like Quadrille, donate money to the Electronic Frontier Foundation, the Open Source Initiative, Creative Commons or the Free Software Foundation.
