@@ -9,6 +9,10 @@
     font-style: normal;
 }
 
+body {
+ margin:0; padding: 0;
+}
+
 #qdr-maincontent {
   color: #00324c;
   text-transform: uppercase;
