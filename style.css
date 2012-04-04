@@ -1,0 +1,56 @@
+@font-face {
+    font-family: 'ArchitectsDaughterRegular';
+    src: url('webfont/ArchitectsDaughter-webfont.eot');
+    src: url('webfont/ArchitectsDaughter-webfont.eot?#iefix') format('embedded-opentype'),
+         url('webfont/ArchitectsDaughter-webfont.woff') format('woff'),
+         url('webfont/ArchitectsDaughter-webfont.ttf') format('truetype'),
+         url('webfont/ArchitectsDaughter-webfont.svg#ArchitectsDaughterRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#qdr-maincontent {
+  color: #00324c;
+  text-transform: uppercase;
+  margin: inherit auto;
+  font-family:"ArchitectsDaughterRegular"
+}
+
+#qdr-gridinternal {
+  background-image: url('grid.50.png');
+}
+
+h1 {
+  margin: 0; padding: 11px 0 0 0;
+  text-align: left;
+}
+h3 {
+  padding: 5px 0 0 0;
+}
+
+.h {
+  color: #b92300 !important;
+}
+
+a {
+  color: #000099;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-size: 18px;
+  line-height: 24px;
+  font-family: 'Consolas', 'Andale Mono', 'Inconsolata', monospace;
+  text-transform: none;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+  height: 50px;
+  line-height: 24px;
+}

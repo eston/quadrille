@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quadrille: Fixed x/y grids in jQuery and SCSS</title>
+  <link rel="stylesheet" href="quadrille.css" type="text/css">
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/jquery.quadrille.min.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $.quadrille({
+      grid_size: 24,
+      grid_offset_x: -12,
+      grid_offset_y: -12,
+      background_image_url: 'bg.jpg'
+    });
+  });
+  </script>
+</head>
+<body>
+<!-- viewport simulation -->
+<div id="qdr-viewport">
+<div id="qdr-grid">
+<div id="qdr-gridinternal">
+<!-- main elastic grid -->
+<div id="qdr-maincontent" class="w30">
+  <!--
+    anything inside here is "snapped" to the center.
+    if you don't want that, just get rid of qdr-maincontent.
+  -->
+  <a id="top" name="top"></a>
+  <h1 class="block w10 h2">Quadrille</h1>
+  <div class="block w30 h3">
+    <h3>A little bit of <span class="h">&lt;3</span> for x <span class="h">and</span> y fixed grids</h3>
+  </div>
+  <div class="block h1">&nbsp;</div>
+  <h3 class="block w10 h2">About Quadrille</h3>
+  <p class="block w30 h16">
+    Want to put some stuff on a square grid? Quadrille generates easy
+    classes in SCSS and uses a jQuery plugin to keep everything
+    snapped to the grid. <span class="h">Resize
+    the window to see things snap.</span> Inspect the elements
+    and you'll see them stay true.<br><br>
+    This is probably only useful if you&rsquo;re working with square,
+    fixed grids and need an easy coordinate system to play with. If
+    that is what you&rsquo;re up to, Quadrille will make your life
+    way easier.<br><br>
+    If you just want grids, you probably want to play with
+    a proper framework, not this. This was originally made as a
+    proof-of-concept for a really odd client request: a full-screen
+    image with a grid overlay, where the grid scaled and elastically
+    centered content while always
+    remaining snapped to the grid. This required
+    basically recreating the viewport. You&rsquo;ll notice that layout
+    used on this page.
+  </p>
+  <div class="block h1">&nbsp;</div>
+  <h3 class="block w20 h2">Prerequisites</h3>
+  <p class="block w30 h6">
+  Before you can play with Quadrille, you will need to make sure you
+  have <span class="h">Sass</span>. If you don&rsquo;t have Sass installed,
+  just run <br><br>
+  <code>$ gem install sass</code>
+  <br><br>
+  and everything will be OK.
+  </p>
+  <div class="block h1">&nbsp;</div>
+  <h3 class="block w20 h2">Easy: Autogenerate Code</h3>
+  <p class="block w30 h19">
+  The hardest part of Quadrille is configuration, and it&rsquo;s not
+  very hard. Before you start with Quadrille, you&rsquo;ll need to know
+  your <span class="h">grid size</span> and <span class="h">grid
+  offsets</span>.<br><br>
+  Your <span class="h">grid size</span> is how big of an x/y grid you
+  need. (In the case of this page, it&rsquo;s 24x24.)<br><br>
+  Your <span class="h">grid offset</span> is the offset within the
+  grid background image that the intersection point is. This page&rsquo;s
+  grid intersects directly in the middle, at (12,12).<br><br>
+  If you know these, you&rsquo;re good to go. Run Quadrille's
+  code generator:<br><br>
+  <code>$ ./quadrille</code>
+  <br><br>
+  Follow the steps.
+  If you forgot to install Sass the generator will complain.
+  </p>
+  <h3 class="block w20 h2">Advanced: Configure Manually</h3>
+  <p class="block w30 h8">
+  Quadrille extends jQuery. If you are proficient with jQuery and want
+  to generate your own code, include <code>jquery.quadrille.min.js</code>
+  and work from there. Your code will look like:<br><br>
+  <code>
+  &nbsp;&nbsp;$.quadrille({<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;// your options go here<br>
+  &nbsp;&nbsp;});
+  </code>
+  </p>
+  <p class="block w30 h5">
+  The jQuery plugin has a few different options: <code>grid_size</code>,
+  <code>grid_offset_x</code>, <code>grid_offset_y</code>,
+  <code>animate_on_resize</code>, <code>resize_timer_resolution</code>,
+  and <code>background_image_url</code>. The code autogenerator sets
+  the basics <code>grid_size</code>, <code>grid_offset_x</code>,
+  and <code>grid_offset_y</code> for a new user.
+  </p>
+  <p class="block w30 h2">
+  <code class="h">grid_size</code> is the size of your square grid, in
+  pixels.
+  </p>
+  <p class="block w30 h3">
+  <code class="h">grid_offset_x</code> is the offset in the x axis to
+  the centerpoint of your grid.
+  </p>
+  <p class="block w30 h3">
+  <code class="h">grid_offset_y</code> is the offset in the y axis to
+  the centerpoint of your grid.
+  </p>
+  <p class="block w30 h4">
+  <code class="h">animate_on_resize</code> is a boolean value that
+  animates the elastic grid movement upon resize so it
+  &ldquo;slides&rdquo; back onto the grid. This defaults to
+  <code>false</code>. It is experimental.
+  </p>
+  <p class="block w30 h5">
+  <code class="h">resize_timer_resolution</code> is an integer that
+  buffers the animation resize. This stops the animations from stacking
+  up and getting ridiculous when the window is resized all over the
+  place wildly. This is defaulted to a subjective number.
+  </p>
+  <p class="block w30 h5">
+  <code class="h">background_image_url</code> is the URL to a fixed,
+  full-screen background image if you need one. Quadrille creates the
+  image tags necessary for this to work and handles the full-screen
+  zooming for you.
+  </p>
+  <h3 class="block w20 h2">Designing with Quadrille</h3>
+  <p class="block w30 h6">
+  Quadrille is meant to be used with no understanding of anything but
+  very basic
+  HTML and CSS. You should not have to touch anything else. Because
+  of this, Quadrille has a very verbose class syntax that allows you to
+  develop on fixed grids up to 5000px by 5000px with just different
+  classes.
+  </p>
+  <p class="block w30 h5">
+  For example, this text uses the classes
+  <code>block w30 h5</code>. That sounds nasty but it
+  isn&rsquo;t when it is explained. Quadrille has
+  <span class="h">blocks</span>, <span class="h">dimensions</span>, and
+  <span class="h">floaters</span>. In this paragraph&rsquo;s case, its
+  block is <code>block</code>, its dimensions <code>w30</code> and
+  <code>h5</code>.
+  </p>
+  <h3 class="block w20 h2">Blocks</h3>
+  <p class="block w30 h3">
+  <span class="h">Blocks</span> come in four different flavors:
+  <code class="h">block</code>, <code class="h">gblock</code>,
+  <code class="h">relblock</code> and <code class="h">absblock</code>,
+  all of which get positioned differently.
+  </p>
+  <p class="block w30 h3">
+  <span class="h"><code>block</code></span> takes up an entire
+  row even if your grid dimension doesn&rsquo;t go that far. It works
+  like a normal block element.
+  </p>
+  <p class="block w30 h4">
+  <span class="h"><code>gblock</code></span> creates a
+  <span class="h">grid</span> block. These float to the left and allow
+  you to put many of them side by side. They will wrap at the width
+  of <code>qdr-maincontent</code> (the elastic grid container).
+  </p>
+  <p class="block w30 h4">
+  <span class="h"><code>relblock</code></span> relatively positions
+  a block. These blocks are still considered in the flow, so you will
+  not have two relblocks appear adjacent to one another.
+  </p>
+  <p class="block w30 h3">
+  <span class="h"><code>absblock</code></span> allows you to
+  arbitrarily place blocks wherever you please on the coordinate
+  grid.
+  </p>
+  <h3 class="block w20 h2">Dimensions</h3>
+  <p class="block w30 h7">
+  <span class="h">Dimensions</span> give blocks graphical coordinates
+  or sizes. Dimensions come in a few different types:
+  <code class="h">w</code>, <code class="h">h</code>,
+  <code class="h">s</code>, <code class="h">x</code>,
+  <code class="h">y</code>, <code class="h">lh</code>, and
+  <code class="h">fs</code>. All of these are short names, and all do
+  only one thing: set a certain dimension or offset on the page to
+  a multiple of your grid size. There is also a special dimension
+  class called <code class="h">offset</code> but we&rsquo;ll get to that
+  later.
+  </p>
+  <p class="block w30 h4">
+  <code class="h">w</code> dimensions are <span class="h">width</span>
+  dimensions. For example, <code>w1</code> will set your element to exactly
+  one grid square wide. <code>w10</code> will set the element to exactly
+  ten squares wide, and so on.
+  </p>
+  <p class="block w30 h3">
+  <code class="h">h</code> dimensions are <span class="h">height</span>
+  dimensions and work exactly like width blocks, only vertically.
+  </p>
+  <p class="block w30 h4">
+  <code class="h">s</code> dimensions are <span class="h">space</span>
+  dimensions. They are only useful really for <code>gblock</code> (grid
+  blocks). They add blank space in between different grid blocks.
+  </p>
+  <p class="block w30 h5">
+  <code class="h">x</code> dimensions are <span class="h">x-coordinate</span>
+  dimensions, which you use with <code>absblock</code> or
+  <code>relblock</code> structures. x-dimensions work the way you'd expect
+  from the top of your grid to the right. For example, <code>x1</code>
+  would be in the first square of your grid.
+  </p>
+  <p class="block w30 h6">
+  <code class="h">y</code> dimensions are <span class="h">y-coordinate</span>
+  dimensions. Unlike the way a geometric y-axis works, y increments (gets
+  bigger) as you go <span class="h">down</span> the page instead of up
+  like a normal coordinate grid. This is normal for the web. As an
+  example, <code>y7</code> is seven grid squares down from the top of your grid.
+  </p>
+  <p class="block w30 h5">
+  <code class="h">lh</code> dimensions are a convenience dimension. They set the
+  font&rsquo;s line height to a multiple of the grid.
+  <code class="h">fs</code> are also a font convenience dimension, setting
+  the font size to a multiple of the grid.
+  </p>
+  <p class="block w30 h6">
+  <code class="h">offset</code>, <code class="h">offset-x</code>, and
+  <code class="h">offset-y</code> are special dimensional classes. If
+  you aren&rsquo;t working inside <code>mainContent</code> and want to
+  arbitrarily place blocks, these will compensate for your grid offset.
+  They&rsquo;re for being powerful. <code>offset</code> offsets in both
+  x and y directions, while the others only offset in one.
+  </p>
+  <h3 class="block w20 h2">Floaters</h3>
+  <p class="block w30 h4">
+  <span class="h">Floaters</span> control the floating/nesting structure
+  of the grid. They are for use with <code>gblock</code> (grid blocks)
+  only. They are <code class="h">clearleft</code>,
+  <code class="h">clearright</code>, and <code class="h">clearboth</code>.
+  </p>
+  <p class="block w30 h4">
+  <code class="h">clearleft</code> clears grid bits floating to the left.
+  This is a shortcut for the CSS <code>clear: left;</code> and you should
+  use this with a <code>gblock</code> if you don&rsquo;t want anything
+  to the side of it.
+  </p>
+  <p class="block w30 h3">
+  <code class="h">clearright</code> does the same, but to the right:
+  anything floated to the right will be cleared.
+  </p>
+  <p class="block w30 h3">
+  <code class="h">clearboth</code> is the hammer that clears everything
+  in both directions, in case you need to go Conan on your grid.
+  </p>
+  <h3 class="block w20 h2">Compatibility</h3>
+  <p class="block w30 h7">
+  Quadrille should work in Internet Explorer 8 or higher. You might have luck
+  with older browsers but it isn&rsquo;t tested in those. If for some
+  reason your client does not have JavaScript enabled, the site will try
+  to gracefully break down and not snap to the elastic grid. This is a
+  rather large rarity in today&rsquo;s browsing environment.
+  </p>
+  <h3 class="block w20 h2">Reporting Bugs</h3>
+  <p class="block w30 h4">
+  If you have found a bug in Quadrille, please open an issue on GitHub.
+  If you are a smart developer, you can issue your own fix as well.
+  </p>
+  <h3 class="block w20 h2">Licensing</h3>
+  <p class="block w30 h7">
+  Quadrille is released under the MIT License, just like Sass and jQuery.
+  If you like Quadrille, donate money to the Electronic Frontier
+  Foundation, the Open Source Initiative, Creative Commons or the
+  Free Software Foundation.
+  </p>
+<!-- end elastic grid -->
+</div>
+<!-- end viewport simulation -->
+</div>
+</div>
+</div>
+</body>
+</html>
